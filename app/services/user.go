@@ -8,7 +8,7 @@ import (
 
 type (
 	User struct {
-		Authenticator *Authenticator
+		WhoAmI *WhoAmI
 	}
 
 	UserResponse struct {
@@ -17,11 +17,11 @@ type (
 )
 
 func NewUser() *User {
-	return &User{Authenticator: NewAuthenticator()}
+	return &User{WhoAmI: NewWhoAmI()}
 }
 
 func (u *User) Me(r *http.Request) (*UserResponse, error) {
-	currentUser, err := u.Authenticator.GetCurrentUser(r)
+	currentUser, err := u.WhoAmI.GetCurrentUser(r)
 	if err != nil {
 		return nil, err
 	}

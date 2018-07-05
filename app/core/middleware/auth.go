@@ -8,9 +8,9 @@ import (
 )
 
 func CurrentUserVerifier(next http.Handler) http.Handler {
-	authenticator := services.NewAuthenticator()
+	whoami := services.NewWhoAmI()
 	fn := func(w http.ResponseWriter, r *http.Request) {
-		_, err := authenticator.GetCurrentUser(r)
+		_, err := whoami.GetCurrentUser(r)
 		if err != nil {
 			log.Print("[ERROR] verify current user: ", err)
 			http.Error(w, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)

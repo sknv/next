@@ -18,11 +18,11 @@ const (
 )
 
 type Auth struct {
-	AuthKeeper *services.AuthKeeper
+	Authenticator *services.Authenticator
 }
 
 func NewAuth() *Auth {
-	return &Auth{AuthKeeper: services.NewAuthKeeper()}
+	return &Auth{Authenticator: services.NewAuthenticator()}
 }
 
 func (a *Auth) Route(router chi.Router) {
@@ -37,7 +37,7 @@ func (a *Auth) Route(router chi.Router) {
 func (a *Auth) Create(w http.ResponseWriter, r *http.Request) {
 	req := a.decodeCreateRequest(w, r)
 	mongoSession := mongo.GetMongoSession(r)
-	if err := a.AuthKeeper.CreateAuth(mongoSession, req); err != nil {
+	if err := a.Authenticator.CreateAuth(mongoSession, req); err != nil {
 		log.Print("[ERROR] create auth: ", err)
 		err := err.(*xhttp.ErrHttpStatus)
 		if err.Status != http.StatusInternalServerError {
@@ -54,7 +54,7 @@ func (a *Auth) Create(w http.ResponseWriter, r *http.Request) {
 func (a *Auth) Login(w http.ResponseWriter, r *http.Request) {
 	req := a.decodeLoginRequest(w, r)
 	mongoSession := mongo.GetMongoSession(r)
-	resp, err := a.AuthKeeper.Login(mongoSession, req)
+	resp, err := a.Authenticator.Login(mongoSession, req)
 	if err != nil {
 		log.Print("[ERROR] login: ", err)
 		http.Error(w, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)

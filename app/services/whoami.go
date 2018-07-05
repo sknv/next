@@ -15,18 +15,18 @@ import (
 type contextKey string
 
 const (
-	contextKeyCurrentUser = contextKey("authenticator.currentuser")
+	contextKeyCurrentUser = contextKey("whoami.currentuser")
 )
 
-type Authenticator struct {
+type WhoAmI struct {
 	Users *store.User
 }
 
-func NewAuthenticator() *Authenticator {
-	return &Authenticator{Users: store.NewUser()}
+func NewWhoAmI() *WhoAmI {
+	return &WhoAmI{Users: store.NewUser()}
 }
 
-func (a *Authenticator) GetCurrentUser(r *http.Request) (*models.User, error) {
+func (a *WhoAmI) GetCurrentUser(r *http.Request) (*models.User, error) {
 	currentUser := r.Context().Value(contextKeyCurrentUser)
 	if currentUser != nil {
 		currentUser := currentUser.(*models.User)

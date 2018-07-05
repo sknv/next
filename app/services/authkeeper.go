@@ -21,7 +21,7 @@ const (
 )
 
 type (
-	AuthKeeper struct {
+	Authenticator struct {
 		JWTAuth     *jwtauth.JWTAuth
 		LoginMailer *mailers.Login
 		Users       *store.User
@@ -41,8 +41,8 @@ type (
 	}
 )
 
-func NewAuthKeeper() *AuthKeeper {
-	return &AuthKeeper{
+func NewAuthenticator() *Authenticator {
+	return &Authenticator{
 		JWTAuth:     initers.GetJWTAuth(),
 		LoginMailer: mailers.NewLogin(),
 		Users:       store.NewUser(),
@@ -50,7 +50,7 @@ func NewAuthKeeper() *AuthKeeper {
 }
 
 // CreateAuth creates a user account if one does not exist yet and stores an auth session.
-func (a *AuthKeeper) CreateAuth(mongoSession *mgo.Session, r *CreateAuthRequest) error {
+func (a *Authenticator) CreateAuth(mongoSession *mgo.Session, r *CreateAuthRequest) error {
 	if err := r.Validate(); err != nil {
 		return &xhttp.ErrHttpStatus{Err: err, Status: http.StatusUnprocessableEntity}
 	}
@@ -71,7 +71,7 @@ func (a *AuthKeeper) CreateAuth(mongoSession *mgo.Session, r *CreateAuthRequest)
 }
 
 // Login authenticates an auth session.
-func (a *AuthKeeper) Login(mongoSession *mgo.Session, r *LoginRequest,
+func (a *Authenticator) Login(mongoSession *mgo.Session, r *LoginRequest,
 ) (*LoginResponse, error) {
 	user, err := a.Users.FindOneByEmail(mongoSession, r.Email)
 	if err != nil {
