@@ -5,11 +5,11 @@ import (
 
 	"github.com/go-chi/chi"
 
-	"github.com/sknv/next/app/core/initers"
+	core "github.com/sknv/next/app/core/initers"
 	xchi "github.com/sknv/next/app/lib/chi"
 	xhttp "github.com/sknv/next/app/lib/net/http"
-	"github.com/sknv/next/app/rest/api/cfg"
 	"github.com/sknv/next/app/rest/api/controllers"
+	api "github.com/sknv/next/app/rest/api/initers"
 )
 
 const (
@@ -19,7 +19,7 @@ const (
 )
 
 func main() {
-	mongoSession := initers.GetMongoSession()
+	mongoSession := core.GetMongoSession()
 	defer mongoSession.Close() // Clean up.
 
 	router := chi.NewRouter()
@@ -28,7 +28,7 @@ func main() {
 	xchi.ProvideMongoSession(router, mongoSession)
 
 	route(router)
-	xhttp.ListenAndServe(cfg.GetAddr(), router, shutdownTimeout)
+	xhttp.ListenAndServe(api.GetConfig().Addr, router, shutdownTimeout)
 }
 
 func route(router chi.Router) {
