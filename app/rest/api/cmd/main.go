@@ -6,10 +6,10 @@ import (
 	"github.com/go-chi/chi"
 
 	"github.com/sknv/next/app/core/initers"
-	"github.com/sknv/next/app/gates/api/cfg"
-	"github.com/sknv/next/app/gates/api/controllers"
 	xchi "github.com/sknv/next/app/lib/chi"
 	xhttp "github.com/sknv/next/app/lib/net/http"
+	"github.com/sknv/next/app/rest/api/cfg"
+	"github.com/sknv/next/app/rest/api/controllers"
 )
 
 const (

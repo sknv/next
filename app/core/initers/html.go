@@ -1,7 +1,6 @@
 package initers
 
 import (
-	"github.com/sknv/next/app/core/cfg"
 	xtemplate "github.com/sknv/next/app/lib/html/template"
 )
 
@@ -15,7 +14,7 @@ var (
 )
 
 func init() {
-	html = xtemplate.NewHTML(tplRoot, tplExt, cfg.IsProduction())
+	html = xtemplate.NewHTML(tplRoot, tplExt, config.IsProduction())
 }
 
 func GetHTML() *xtemplate.HTML {

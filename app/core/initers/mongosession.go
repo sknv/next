@@ -3,7 +3,6 @@ package initers
 import (
 	"github.com/globalsign/mgo"
 
-	"github.com/sknv/next/app/core/cfg"
 	"github.com/sknv/next/app/lib/mongo"
 )
 
@@ -12,13 +11,14 @@ var (
 )
 
 func init() {
+	cfg := GetConfig()
 	dialInfo := &mgo.DialInfo{
-		Addrs:    cfg.GetMongoAddrs(),
-		Source:   cfg.GetMongoSource(),
-		Database: cfg.GetMongoDatabase(),
-		Username: cfg.GetMongoUsername(),
-		Password: cfg.GetMongoPassword(),
-		Timeout:  cfg.GetMongoTimeout(),
+		Addrs:    cfg.MongoAddrs,
+		Database: cfg.MongoDatabase,
+		Username: cfg.MongoUsername,
+		Password: cfg.MongoPassword,
+		Timeout:  cfg.MongoTimeout,
+		Source:   "admin", // authenticate against "admin" database
 	}
 	mongoSession = mongo.MustDial(dialInfo)
 }

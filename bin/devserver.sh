@@ -6,4 +6,4 @@
 set -a; [ -f .env ] && . .env; set +a
 
 # Run the dev server.
-go run app/gates/api/cmd/main.go
+go run app/rest/api/cmd/main.go

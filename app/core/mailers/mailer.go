@@ -6,12 +6,7 @@ import (
 
 	"github.com/jordan-wright/email"
 
-	"github.com/sknv/next/app/core/cfg"
 	"github.com/sknv/next/app/core/initers"
-)
-
-const (
-	From = "Application Mailer <example@gmail.com>"
 )
 
 type Mailer struct {
@@ -21,11 +16,12 @@ type Mailer struct {
 }
 
 func NewMailer() *Mailer {
+	cfg := initers.GetConfig()
 	return &Mailer{
-		From: From,
+		From: cfg.MailFrom,
 		Addr: cfg.GetMailAddr(),
 		Auth: smtp.PlainAuth(
-			"", cfg.GetMailUsername(), cfg.GetMailPassword(), cfg.GetMailHost(),
+			"", cfg.MailUsername, cfg.MailPassword, cfg.MailHost,
 		),
 	}
 }
@@ -40,7 +36,7 @@ func (m *Mailer) ExecuteTemplate(name string, data interface{}) []byte {
 
 func (m *Mailer) Deliver(email *email.Email) {
 	// Log an email for the development mode.
-	if !cfg.IsProduction() {
+	if initers.GetConfig().IsDevelopment() {
 		log.Printf("[INFO] deliver email: %s to %s", email.Text, email.To)
 		return
 	}

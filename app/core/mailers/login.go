@@ -6,7 +6,7 @@ import (
 	"github.com/go-chi/render"
 	"github.com/jordan-wright/email"
 
-	"github.com/sknv/next/app/core/cfg"
+	"github.com/sknv/next/app/core/initers"
 	"github.com/sknv/next/app/core/models"
 )
 
@@ -20,11 +20,13 @@ func NewLogin() *Login {
 
 func (l *Login) Deliver(user *models.User) {
 	loginLink := fmt.Sprintf(
-		"%s/auth/login?email=%s&password=%s", cfg.MailBaseUrl, user.Email, user.Code,
+		"%s/auth/login?email=%s&password=%s",
+		initers.GetConfig().MailBaseURL, user.Email, user.Code,
 	)
 	plain := fmt.Sprintf(
 		`Paste this link into web browser to login into your accout: %s
-Or just type the disposable code right in the app: %s`, loginLink, user.Code,
+Or just type the disposable code right in the app: %s`,
+		loginLink, user.Code,
 	)
 
 	email := &email.Email{
