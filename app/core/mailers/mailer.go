@@ -36,7 +36,7 @@ func (m *Mailer) ExecuteTemplate(name string, data interface{}) []byte {
 
 func (m *Mailer) Deliver(email *email.Email) {
 	// Log an email for the development mode.
-	if initers.GetConfig().IsDevelopment() {
+	if !initers.GetConfig().IsRelease() {
 		log.Printf("[INFO] deliver email: %s to %s", email.Text, email.To)
 		return
 	}

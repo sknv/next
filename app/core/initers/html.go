@@ -14,7 +14,7 @@ var (
 )
 
 func init() {
-	html = xtemplate.NewHTML(tplRoot, tplExt, config.IsProduction())
+	html = xtemplate.NewHTML(tplRoot, tplExt, config.IsRelease())
 }
 
 func GetHTML() *xtemplate.HTML {

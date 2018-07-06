@@ -5,8 +5,12 @@ import (
 	"time"
 )
 
+const (
+	modeRelease = "release"
+)
+
 type Config struct {
-	Env string `long:"env" env:"ENV" default:"development" description:"application environment"`
+	Mode string `long:"mode" env:"MODE" default:"debug" description:"application mode"`
 
 	MailBaseURL  string `long:"mail-base-url" env:"MAIL_BASE_URL" required:"true" description:"base url to prepend to all urls in mail"`
 	MailFrom     string `long:"mail-from" env:"MAIL_FROM" required:"true" description:"mail from header"`
@@ -24,12 +28,8 @@ type Config struct {
 	SecretKey string `long:"secret-key" env:"SECRET_KEY" required:"true" description:"secret key"`
 }
 
-func (c *Config) IsDevelopment() bool {
-	return c.Env == "development"
-}
-
-func (c *Config) IsProduction() bool {
-	return !c.IsDevelopment()
+func (c *Config) IsRelease() bool {
+	return c.Mode == modeRelease
 }
 
 func (c *Config) GetMailAddr() string {
