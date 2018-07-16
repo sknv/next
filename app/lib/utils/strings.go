@@ -6,11 +6,12 @@ import (
 )
 
 const (
-	letters     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	numbers     = "0123456789"
-	charIdxBits = 6                  // 6 bits to represent a letter index.
-	charIdxMask = 1<<charIdxBits - 1 // All 1-bits, as many as charIdxBits.
-	charIdxMax  = 63 / charIdxBits   // # of letter indices fitting in 63 bits.
+	letters           = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	numbers           = "0123456789"
+	lettersAndNumbers = letters + numbers
+	charIdxBits       = 6                  // 6 bits to represent a letter index.
+	charIdxMask       = 1<<charIdxBits - 1 // All 1-bits, as many as charIdxBits.
+	charIdxMax        = 63 / charIdxBits   // # of letter indices fitting in 63 bits.
 )
 
 var (
@@ -26,13 +27,13 @@ func RandomNumbers(length int) string {
 }
 
 func RandomString(length int) string {
-	return randomString(numbers+letters, length)
+	return randomString(lettersAndNumbers, length)
 }
 
 func randomString(source string, length int) string {
 	buffer := make([]byte, length)
 	letterCount := len(source)
-	// A rndSrc.Int63() generates 63 random bits, enough for charIdxMax characters!
+	// A rndSrc.Int63() generates 63 random bits, enough for charIdxMax characters.
 	for i, cache, remain := length-1, rndSrc.Int63(), charIdxMax; i >= 0; {
 		if remain == 0 {
 			cache, remain = rndSrc.Int63(), charIdxMax
