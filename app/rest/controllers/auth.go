@@ -68,13 +68,13 @@ func (a *Auth) Login(w http.ResponseWriter, r *http.Request) {
 func (*Auth) decodeCreateRequest(w http.ResponseWriter, r *http.Request,
 ) *services.CreateAuthRequest {
 	req := &services.CreateAuthRequest{}
-	xchi.DecodeRequest(w, r, req)
+	xchi.DecodeJSON(w, r, req)
 	return req
 }
 
 func (*Auth) decodeLoginRequest(w http.ResponseWriter, r *http.Request,
 ) *services.LoginRequest {
 	req := &services.LoginRequest{}
-	xchi.DecodeRequest(w, r, req)
+	xchi.DecodeJSON(w, r, req)
 	return req
 }

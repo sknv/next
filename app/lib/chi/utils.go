@@ -9,7 +9,7 @@ import (
 	xhttp "github.com/sknv/next/app/lib/net/http"
 )
 
-func DecodeRequest(w http.ResponseWriter, r *http.Request, v interface{}) {
+func DecodeJSON(w http.ResponseWriter, r *http.Request, v interface{}) {
 	if err := render.DecodeJSON(r.Body, v); err != nil {
 		log.Print("[ERROR] decode request: ", err)
 		http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
