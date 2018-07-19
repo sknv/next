@@ -4,9 +4,9 @@ import (
 	"context"
 	"log"
 	"net/http"
-	"os"
-	"os/signal"
 	"time"
+
+	xos "github.com/sknv/next/app/lib/os"
 )
 
 // ListenAndServe serves the handler at specified port
@@ -36,9 +36,7 @@ func startServer(handler http.Handler, addr string) *http.Server {
 
 func shutdownServerGracefully(server *http.Server, shutdownTimeout time.Duration) {
 	// Wait for interrupt signal to gracefully shutdown the server with a specified timeout.
-	quit := make(chan os.Signal)
-	signal.Notify(quit, os.Interrupt)
-	<-quit
+	xos.WaitForExit()
 
 	log.Print("[INFO] shutting down the server...")
 
