@@ -8,8 +8,8 @@ import (
 	core "github.com/sknv/next/app/core/initers"
 	xchi "github.com/sknv/next/app/lib/chi"
 	xhttp "github.com/sknv/next/app/lib/net/http"
-	"github.com/sknv/next/app/rest/api/controllers"
-	api "github.com/sknv/next/app/rest/api/initers"
+	"github.com/sknv/next/app/rest/cfg"
+	"github.com/sknv/next/app/rest/controllers"
 )
 
 const (
@@ -19,16 +19,18 @@ const (
 )
 
 func main() {
+	cfg := cfg.Parse()
+
 	mongoSession := core.GetMongoSession()
 	defer mongoSession.Close() // Clean up.
 
 	router := chi.NewRouter()
 	xchi.UseDefaultMiddleware(router)
-	xchi.ThrottleAndTimeout(router, concurrentRequestLimit, requestTimeout)
+	xchi.UseThrottleAndTimeout(router, concurrentRequestLimit, requestTimeout)
 	xchi.ProvideMongoSession(router, mongoSession)
 
 	route(router)
-	xhttp.ListenAndServe(api.GetConfig().Addr, router, shutdownTimeout)
+	xhttp.ListenAndServe(cfg.Addr, router, shutdownTimeout)
 }
 
 func route(router chi.Router) {

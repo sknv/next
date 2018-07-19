@@ -27,7 +27,7 @@ func NewAuth() *Auth {
 
 func (a *Auth) Route(router chi.Router) {
 	router.Route("/auth", func(r chi.Router) {
-		xchi.LimitHandler(r, authRequestLimit)
+		xchi.UseLimitHandler(r, authRequestLimit)
 
 		r.Post("/", a.Create)
 		r.Post("/login", a.Login)

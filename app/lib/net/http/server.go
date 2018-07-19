@@ -35,8 +35,7 @@ func startServer(handler http.Handler, addr string) *http.Server {
 }
 
 func shutdownServerGracefully(server *http.Server, shutdownTimeout time.Duration) {
-	// Wait for interrupt signal to gracefully shutdown the server
-	// with a specified timeout.
+	// Wait for interrupt signal to gracefully shutdown the server with a specified timeout.
 	quit := make(chan os.Signal)
 	signal.Notify(quit, os.Interrupt)
 	<-quit

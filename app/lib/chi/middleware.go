@@ -19,7 +19,7 @@ func UseDefaultMiddleware(router chi.Router) {
 	)
 }
 
-func ThrottleAndTimeout(
+func UseThrottleAndTimeout(
 	router chi.Router, concurrentRequestLimit int, requestTimeout time.Duration,
 ) {
 	router.Use(
@@ -27,8 +27,12 @@ func ThrottleAndTimeout(
 	)
 }
 
-func LimitHandler(router chi.Router, requestLimit float64) {
+func UseLimitHandler(router chi.Router, requestLimit float64) {
 	router.Use(tollbooth_chi.LimitHandler(tollbooth.NewLimiter(requestLimit, nil)))
+}
+
+func WithLimitHandler(router chi.Router, requestLimit float64) chi.Router {
+	return router.With(tollbooth_chi.LimitHandler(tollbooth.NewLimiter(requestLimit, nil)))
 }
 
 func ProvideMongoSession(router chi.Router, session *mgo.Session) {

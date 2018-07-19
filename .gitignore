@@ -12,8 +12,7 @@
 *.out
 
 # Ignore logfiles.
-log/*
-!log/.keep
+log/
 
 # Ignore environment variables and docker-compose file.
 .env
