@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/sknv/next/app/lib/mongo/document"
-	"github.com/sknv/next/app/lib/utils"
+	xstrings "github.com/sknv/next/app/lib/strings"
 )
 
 const (
@@ -49,7 +49,7 @@ func (u *User) Authenticate(code string) error {
 }
 
 func (u *User) GenerateCode() {
-	u.Code = utils.RandomNumbers(6)
+	u.Code = xstrings.RandomNumbers(6)
 	u.CodeCreatedAt = time.Now()
 }
 
