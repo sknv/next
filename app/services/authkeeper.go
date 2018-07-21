@@ -10,7 +10,7 @@ import (
 	"github.com/go-ozzo/ozzo-validation"
 	"github.com/go-ozzo/ozzo-validation/is"
 
-	"github.com/sknv/next/app/core/initers"
+	"github.com/sknv/next/app/core/globals"
 	"github.com/sknv/next/app/core/mailers"
 	"github.com/sknv/next/app/core/store"
 	xhttp "github.com/sknv/next/app/lib/net/http"
@@ -42,8 +42,9 @@ type (
 )
 
 func NewAuthenticator() *Authenticator {
+	jwtAuth := globals.GetJWTAuth()
 	return &Authenticator{
-		JWTAuth:     initers.GetJWTAuth(),
+		JWTAuth:     jwtAuth,
 		LoginMailer: mailers.NewLogin(),
 		Users:       store.NewUser(),
 	}

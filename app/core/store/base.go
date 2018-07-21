@@ -4,7 +4,9 @@ import (
 	"github.com/sknv/next/app/lib/mongo/store"
 )
 
-const maxFetchLimit = 25
+const (
+	maxFetchLimit = 25
+)
 
 type Base struct {
 	*store.Finder

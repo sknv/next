@@ -6,28 +6,30 @@ import (
 
 	"github.com/jordan-wright/email"
 
-	"github.com/sknv/next/app/core/initers"
+	"github.com/sknv/next/app/core/globals"
+	xtemplate "github.com/sknv/next/app/lib/html/template"
 )
 
 type Mailer struct {
 	From string
 	Addr string
 	Auth smtp.Auth
+	HTML *xtemplate.HTML
 }
 
 func NewMailer() *Mailer {
-	cfg := initers.GetConfig()
+	cfg := globals.GetConfig()
+	html := globals.GetHTML()
 	return &Mailer{
 		From: cfg.MailFrom,
 		Addr: cfg.GetMailAddr(),
-		Auth: smtp.PlainAuth(
-			"", cfg.MailUsername, cfg.MailPassword, cfg.MailHost,
-		),
+		Auth: smtp.PlainAuth("", cfg.MailUsername, cfg.MailPassword, cfg.MailHost),
+		HTML: html,
 	}
 }
 
 func (m *Mailer) ExecuteTemplate(name string, data interface{}) []byte {
-	bytes, err := initers.GetHTML().ExecuteTemplateToBytes(name, data)
+	bytes, err := m.HTML.ExecuteTemplateToBytes(name, data)
 	if err != nil {
 		panic(err)
 	}
@@ -36,7 +38,8 @@ func (m *Mailer) ExecuteTemplate(name string, data interface{}) []byte {
 
 func (m *Mailer) Deliver(email *email.Email) {
 	// Log an email for the development mode.
-	if !initers.GetConfig().IsRelease() {
+	cfg := globals.GetConfig()
+	if !cfg.IsRelease() {
 		log.Printf("[INFO] deliver email: %s to %s", email.Text, email.To)
 		return
 	}

@@ -5,7 +5,7 @@ import (
 
 	"github.com/go-chi/chi"
 
-	core "github.com/sknv/next/app/core/initers"
+	"github.com/sknv/next/app/core/globals"
 	xchi "github.com/sknv/next/app/lib/chi"
 	xhttp "github.com/sknv/next/app/lib/net/http"
 	"github.com/sknv/next/app/rest/cfg"
@@ -19,9 +19,10 @@ const (
 )
 
 func main() {
+	globals.Init()
 	cfg := cfg.Parse()
 
-	mongoSession := core.GetMongoSession()
+	mongoSession := globals.GetMongoSession()
 	defer mongoSession.Close() // Clean up.
 
 	router := chi.NewRouter()
