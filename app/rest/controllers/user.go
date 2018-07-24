@@ -6,7 +6,7 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
 
-	"github.com/sknv/next/app/core/utils"
+	"github.com/sknv/next/app/core/middleware"
 	"github.com/sknv/next/app/services"
 )
 
@@ -20,7 +20,7 @@ func NewUser() *User {
 
 func (u *User) Route(router chi.Router) {
 	router.Route("/users", func(r chi.Router) {
-		utils.RequireLogin(r)
+		middleware.RequireLogin(r)
 
 		r.Get("/me", u.Me)
 	})

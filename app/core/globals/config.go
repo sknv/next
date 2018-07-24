@@ -1,4 +1,4 @@
-package initers
+package globals
 
 import (
 	"os"
@@ -12,7 +12,7 @@ var (
 	config = &cfg.Config{}
 )
 
-func init() {
+func InitConfig() {
 	flagParser := flags.NewParser(config, flags.Default)
 	if _, err := flagParser.ParseArgs(os.Args[1:]); err != nil {
 		os.Exit(1)

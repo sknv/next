@@ -3,7 +3,7 @@ package cfg
 import (
 	"os"
 
-	flags "github.com/jessevdk/go-flags"
+	"github.com/jessevdk/go-flags"
 )
 
 type Config struct {

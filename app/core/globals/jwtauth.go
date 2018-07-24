@@ -1,7 +1,9 @@
-package initers
+package globals
 
 import (
 	"github.com/go-chi/jwtauth"
+
+	"github.com/sknv/next/app/core/cfg"
 )
 
 const (
@@ -12,8 +14,8 @@ var (
 	jwtAuth *jwtauth.JWTAuth
 )
 
-func init() {
-	jwtAuth = jwtauth.New(alg, []byte(GetConfig().SecretKey), nil)
+func InitJWTAuth(config *cfg.Config) {
+	jwtAuth = jwtauth.New(alg, []byte(config.SecretKey), nil)
 }
 
 func GetJWTAuth() *jwtauth.JWTAuth {
