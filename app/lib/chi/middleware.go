@@ -19,12 +19,12 @@ func UseDefaultMiddleware(router chi.Router) {
 	)
 }
 
-func UseThrottleAndTimeout(
-	router chi.Router, concurrentRequestLimit int, requestTimeout time.Duration,
-) {
-	router.Use(
-		middleware.Throttle(concurrentRequestLimit), middleware.Timeout(requestTimeout),
-	)
+func UseThrottle(router chi.Router, concurrentRequestLimit int) {
+	router.Use(middleware.Throttle(concurrentRequestLimit))
+}
+
+func UseTimeout(router chi.Router, requestTimeout time.Duration) {
+	router.Use(middleware.Timeout(requestTimeout))
 }
 
 func UseLimitHandler(router chi.Router, requestLimit float64) {

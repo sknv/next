@@ -26,7 +26,8 @@ func main() {
 
 	router := chi.NewRouter()
 	xchi.UseDefaultMiddleware(router)
-	xchi.UseThrottleAndTimeout(router, concurrentRequestLimit, requestTimeout)
+	xchi.UseThrottle(router, concurrentRequestLimit)
+	xchi.UseTimeout(router, requestTimeout)
 	xchi.ProvideMongoSession(router, mongoSession)
 
 	route(router)
